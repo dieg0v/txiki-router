@@ -5,7 +5,7 @@ Simple router for PHP
 [![Author](http://img.shields.io/badge/author-@dieg0v-blue.svg?style=flat-square)](https://twitter.com/dieg0v)
 [![Latest Version](https://img.shields.io/github/release/txiki/route.svg?style=flat-square)](https://github.com/dieg0v/txiki-router/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://img.shields.io/travis/dieg0v/txiki-router/develop.svg?style=flat-square)](https://travis-ci.org/txiki/route)
+[![Build Status](https://img.shields.io/travis/dieg0v/txiki-router/develop.svg?style=flat-square)](https://travis-ci.org/dieg0v/txiki-router)
 
 ## Install
 
