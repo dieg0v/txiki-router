@@ -4,9 +4,11 @@ Simple router for PHP
 
 [![Author](http://img.shields.io/badge/author-@dieg0v-blue.svg?style=flat-square)](https://twitter.com/dieg0v)
 [![Latest Version](https://img.shields.io/github/release/dieg0v/txiki-router.svg?style=flat-square)](https://github.com/dieg0v/txiki-router/releases)
+[![Packagist Version](https://img.shields.io/packagist/v/txiki/txiki-router.svg?style=flat-square)](https://packagist.org/packages/txiki/txiki-router)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/dieg0v/txiki-router/master.svg?style=flat-square)](https://travis-ci.org/dieg0v/txiki-router)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dieg0v/txiki-router/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dieg0v/txiki-router/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/dieg0v/txiki-router.svg?style=flat-square)](https://scrutinizer-ci.com/g/dieg0v/txiki-router/?branch=master)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/dieg0v/txiki-router.svg?style=flat-square)](https://scrutinizer-ci.com/g/dieg0v/txiki-router/?branch=master)
 
 ## Install
 
