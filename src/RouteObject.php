@@ -58,8 +58,6 @@ class RouteObject
 	 * @param string    $route
 	 * @param array     $methods
 	 * @param \Clousure $callback
-	 *
-	 * @return Txiki\Router\RouteObject 	Route Object created
 	 */
 	public function __construct($route, $methods, $callback)
 	{
@@ -81,7 +79,6 @@ class RouteObject
 			$this->params( $params );
 		}
 
-		return $this;
 	}
 
 	/**
@@ -112,5 +109,4 @@ class RouteObject
 	{
 		return $this->paramsValues[$param] = $value;
 	}
-
 }

@@ -66,7 +66,7 @@ class Route
     		throw new RouteException("No route callback set");
     	}
 
-    	if(!$types){
+    	if($types===false){
     		$types = implode('|',$this->httpMethods);
     	}
 
@@ -150,7 +150,9 @@ class Route
 
     	foreach ($this->routes as $key => $route) {
 
-    		for ($i=0; $i < count($route); $i++) {
+            $totalRoutes = count($route);
+
+    		for ($i=0; $i < $totalRoutes; $i++) {
 
 	    		if(in_array($method,$route[$i]->methods)){
 
@@ -172,7 +174,9 @@ class Route
 		    			preg_match_all( '/{(.*?)}/', $key , $matches_vars  );
 		    			$matches_vars = $matches_vars[1];
 
-		    			for ($j=0; $j<count($matches_vars); $j++) {
+                        $total_matches_vars = count($matches_vars);
+
+		    			for ($j=0; $j<$total_matches_vars; $j++) {
 
 		    			 	if(isset($route[$i]->params[$matches_vars[$j]])){
 
@@ -217,5 +221,4 @@ class Route
 
         return $this->add($arguments[0] , $arguments[1], $name);
     }
-
 }
