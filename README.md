@@ -30,8 +30,100 @@ The following versions of PHP are supported by this version.
 
 ## Documentation
 
-``` bash
-We are working on ... ;-)
+Simple example:
+
+``` php
+// load composer autoload
+require '../vendor/autoload.php';
+
+use Txiki\Router\Route;
+
+$r = new Route();
+
+// add GET route
+$r->get('/home', function(){
+    return "GET Hello world!";
+});
+
+// tell to router what you do want to process, route and http method
+$route = $r->exec( '/home', 'get');
+
+if($route!==false){
+	// example process response
+	echo $route->response;
+}else{
+	// example response 404
+	echo '404';
+}
+```
+
+Add more routes:
+
+``` php
+// add POST route
+$r->post('/home', function(){
+    return "POST Hello world!";
+});
+
+// add DELETE route
+$r->delete('/home', function(){
+    return "DELETE Hello world!";
+});
+
+// add PUT route
+$r->put('/home', function(){
+    return "PUT Hello world!";
+});
+```
+
+Wildcard and custom routes:
+``` php
+// add route to any http method
+$r->any('/home', function(){
+    return "Hello world! respond to any http method";
+});
+
+// custom http methods for one route
+$r->add('/home', function(){
+    return "Hello world! respond to custom http methods";
+}, 'get|post');
+```
+
+Manage custom url params:
+``` php
+$r->any('/test-{id}/{name}/{n}', function($id, $name , $n){
+    return 'Test: ' . $id .' '.$name.' '.$n;
+})->params([
+		// add your own regular expression to param or
+		// 'use Txiki\Router\RouteRegex'
+		'id' => RouteRegex::INT,
+		'name' => RouteRegex::ALPHA,
+		'n' => RouteRegex::INT
+	]
+);
+```
+
+Use class/method as callback:
+``` php
+class myClass{
+    public function method1( $id, $name){
+        return 'Hello world ' .$id . ' '. $name;
+    }
+}
+
+$r->get('/user/{id}/{name}', 'myClass.method1');
+```
+
+Helper methods:
+``` php
+// get all established routes
+$table = $r->table();
+
+// get all routes for '/home'
+$map = $r->getRouteMap('/home');
+
+// get only POST route for '/home'
+$map = $r->getRouteMap('/home', 'post');
 ```
 
 ## Testing
