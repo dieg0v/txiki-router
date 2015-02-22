@@ -43,7 +43,7 @@ class RouteObject
 	 *
 	 * @var array
 	 */
-	public $paramsValues =[];
+	public $paramsValues = [];
 
 	/**
 	 * route object response
@@ -65,18 +65,18 @@ class RouteObject
 		$this->methods = $methods;
 		$this->callback = $callback;
 
-		$params  = [];
+		$params = [];
 
-		preg_match_all( '/{(.*?)}/', $route , $matches);
+		preg_match_all('/{(.*?)}/', $route, $matches);
 
-		if( count($matches) > 0 ){
+		if (count($matches) > 0) {
 			foreach ($matches[1] as $key) {
 				$params[$key] = RouteRegex::ALPHANUMERIC;
 			}
 		}
 
-		if(count($params)>0){
-			$this->params( $params );
+		if (count($params) > 0) {
+			$this->params($params);
 		}
 
 	}
@@ -88,9 +88,9 @@ class RouteObject
 	 *
 	 * @return Txiki\Router\RouteObject
 	 */
-	public function params( $params = [])
+	public function params($params = [])
 	{
-		if(!is_array($params)){
+		if (!is_array($params)) {
 			throw new RouteException("Route filters need to be an array");
 		}
 		$this->params = $params;
@@ -105,7 +105,7 @@ class RouteObject
 	 *
 	 * @return mixed 		added value
 	 */
-	public function addValue( $value, $param)
+	public function addValue($value, $param)
 	{
 		return $this->paramsValues[$param] = $value;
 	}

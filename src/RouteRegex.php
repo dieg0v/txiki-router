@@ -10,20 +10,20 @@ class RouteRegex
 	/**
 	 * ANY regex constant
 	 */
-    const ANY = "([^/]+?)";
+	const ANY = "([^/]+?)";
 
 	/**
 	 * INT regex constant
 	 */
-    const INT = "([0-9]+?)";
+	const INT = "([0-9]+?)";
 
-    /**
+	/**
 	 * ALPHA regex constant
 	 */
-    const ALPHA = "([a-zA-Z_-]+?)";
+	const ALPHA = "([a-zA-Z_-]+?)";
 
-    /**
+	/**
 	 * ALPHANUMERIC regex constant
 	 */
-    const ALPHANUMERIC = "([0-9a-zA-Z_-]+?)";
+	const ALPHANUMERIC = "([0-9a-zA-Z_-]+?)";
 }
