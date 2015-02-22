@@ -2,7 +2,7 @@
   "name": "txiki/txiki-router",
   "description": "Simple router for PHP",
   "keywords": ["routing", "router", "txiki"],
-  "homepage": "https://github.com/txiki/route",
+  "homepage": "https://github.com/dieg0v/txiki-router",
   "license": "MIT",
   "authors": [
     {
