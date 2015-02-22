@@ -59,15 +59,15 @@ class Route
 	 *
 	 * @return Txiki\Router\RouteObject
 	 */
-	public function add( $route, $callback = false, $types = false )
+	public function add($route, $callback = false, $types = false)
 	{
 
-		if(!$callback){
+		if (!$callback) {
 			throw new RouteException("No route callback set");
 		}
 
-		if($types===false){
-			$types = implode('|',$this->httpMethods);
+		if ($types === false) {
+			$types = implode('|', $this->httpMethods);
 		}
 
 		$types_to_check = explode('|', $types);
@@ -76,14 +76,14 @@ class Route
 
 			$this->checkMethodType($method);
 
-			if($this->getRouteMap($route,$method)){
+			if ($this->getRouteMap($route, $method)) {
 				throw new RouteException("Duplicate Route method defined");
 			}
 		}
 
 		return $this->routes[$route][] = new RouteObject(
 			$route,
-			$types_to_check ,
+			$types_to_check,
 			$callback
 		);
 
@@ -96,21 +96,21 @@ class Route
 	 * @param  mixed   $method  http method to check
 	 * @return mixed            return false, Txiki\Router\RouteObject, or array of RouteObject's
 	 */
-	public function getRouteMap( $route , $method = false)
+	public function getRouteMap($route, $method = false)
 	{
 
-		if(array_key_exists($route, $this->routes)){
+		if (array_key_exists($route, $this->routes)) {
 
-			if(!$method){
+			if (!$method) {
 				return $this->routes[$route];
-			}else{
+			}else {
 
 				$this->checkMethodType($method);
 
 				$routesObjects = $this->routes[$route];
 				foreach ($routesObjects as $routeObject) {
 					foreach ($routeObject->methods as $routeObjectMethod) {
-						if($routeObjectMethod === $method){
+						if ($routeObjectMethod === $method) {
 							return $routeObject;
 						}
 					}
@@ -127,9 +127,9 @@ class Route
 	 * @param  string $method method name
 	 * @return mixed          true if allowed, throw RouteException if not
 	 */
-	private function checkMethodType( $method )
+	private function checkMethodType($method)
 	{
-		if(!in_array( strtolower( $method ), $this->httpMethods)){
+		if (!in_array(strtolower($method), $this->httpMethods)) {
 			throw new RouteException("Error Processing Route Type");
 		}
 		return true;
@@ -143,54 +143,54 @@ class Route
 	 *
 	 * @return mixed           return one Txiki\Router\RouteObject or false
 	 */
-	public function exec( $request , $method )
+	public function exec($request, $method)
 	{
 
-		$method = strtolower( $method );
+		$method = strtolower($method);
 
 		foreach ($this->routes as $key => $route) {
 
 			$totalRoutes = count($route);
 
-			for ($i=0; $i < $totalRoutes; $i++) {
+			for ($i = 0; $i < $totalRoutes; $i++) {
 
-				if(in_array($method,$route[$i]->methods)){
+				if (in_array($method, $route[$i]->methods)) {
 
 					$search = $key;
 
-					if($route[$i]->params){
+					if ($route[$i]->params) {
 						foreach ($route[$i]->params as $paramKey => $value) {
-							$search = str_replace('{'.$paramKey.'}',$route[$i]->params[''.$paramKey.''], $search);
+							$search = str_replace('{'.$paramKey.'}', $route[$i]->params[''.$paramKey.''], $search);
 						}
 					}
 
-					$search = str_replace('/', '\/' ,$search);
+					$search = str_replace('/', '\/', $search);
 					$search = '/^'.$search.'$/i';
 
-					if(preg_match( $search , $request, $matches_values)){
+					if (preg_match($search, $request, $matches_values)) {
 
-						array_shift ( $matches_values );
+						array_shift($matches_values);
 
-						preg_match_all( '/{(.*?)}/', $key , $matches_vars  );
+						preg_match_all('/{(.*?)}/', $key, $matches_vars);
 						$matches_vars = $matches_vars[1];
 
 						$total_matches_vars = count($matches_vars);
 
-						for ($j=0; $j<$total_matches_vars; $j++) {
+						for ($j = 0; $j < $total_matches_vars; $j++) {
 
-						 	if(isset($route[$i]->params[$matches_vars[$j]])){
+						 	if (isset($route[$i]->params[$matches_vars[$j]])) {
 
-						 		if( isset ($matches_values[$j]) ) {
-						 			$route[$i]->addValue( $matches_values[$j] , $matches_vars[$j]);
+						 		if (isset ($matches_values[$j])) {
+						 			$route[$i]->addValue($matches_values[$j], $matches_vars[$j]);
 						 		}
 
 						 	}
 
 						}
-						if(is_callable($route[$i]->callback)){
+						if (is_callable($route[$i]->callback)) {
 							$route[$i]->response = call_user_func_array($route[$i]->callback, $route[$i]->paramsValues);
-						}else{
-							$call = explode('.',$route[$i]->callback);
+						}else {
+							$call = explode('.', $route[$i]->callback);
 							$class = new $call[0];
 							$route[$i]->response = call_user_func_array(array($class, $call[1]), $route[$i]->paramsValues);
 						}
@@ -215,10 +215,10 @@ class Route
 	 */
 	public function __call($name, $arguments)
 	{
-		if($name=='any'){
+		if ($name == 'any') {
 			$name = false;
 		}
 
-		return $this->add($arguments[0] , $arguments[1], $name);
+		return $this->add($arguments[0], $arguments[1], $name);
 	}
 }
