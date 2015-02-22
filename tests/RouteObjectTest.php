@@ -12,8 +12,8 @@ class RouteObjectTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Route Object
 	 *
-	* @var Txiki\Router\RouteObject
-	*/
+	 * @var Txiki\Router\RouteObject
+	 */
 	protected $routeObject;
 
 	/**
@@ -31,10 +31,10 @@ class RouteObjectTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts route object constructor
-	*
-	* @return void
-	*/
+	 * Asserts route object constructor
+	 *
+	 * @return void
+	 */
 	public function testConstructor()
 	{
 		$this->assertInstanceOf('Txiki\Router\RouteObject', $this->routeObject);
@@ -45,10 +45,10 @@ class RouteObjectTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts route object params
-	*
-	* @return void
-	*/
+	 * Asserts route object params
+	 *
+	 * @return void
+	 */
 	public function testParams()
 	{
 		$this->routeObject->params([
@@ -62,10 +62,10 @@ class RouteObjectTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts route object add value
-	*
-	* @return void
-	*/
+	 * Asserts route object add value
+	 *
+	 * @return void
+	 */
 	public function testAddValue()
 	{
 		$this->assertEquals( 999, $this->routeObject->addValue( 999, 'key') );

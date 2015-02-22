@@ -10,8 +10,8 @@ use Txiki\Router\Route;
 class RouteExceptionTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	* @var Txiki\Router\Route
-	*/
+	 * @var Txiki\Router\Route
+	 */
 	protected $router;
 
 	/**
@@ -25,10 +25,10 @@ class RouteExceptionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts route exception no callback
-	*
-	* @return void
-	*/
+	 * Asserts route exception no callback
+	 *
+	 * @return void
+	 */
 	public function testRouteExceptionNoCallback()
 	{
 		$this->setExpectedException('Txiki\Router\RouteException','No route callback set',0);
@@ -37,10 +37,10 @@ class RouteExceptionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts route exception
-	*
-	* @return void
-	*/
+	 * Asserts route exception
+	 *
+	 * @return void
+	 */
 	public function testRouteExceptionDuplicateRoute()
 	{
 		$this->setExpectedException('Txiki\Router\RouteException','Duplicate Route method defined',0);
@@ -50,10 +50,10 @@ class RouteExceptionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts route exception check method type
-	*
-	* @return void
-	*/
+	 * Asserts route exception check method type
+	 *
+	 * @return void
+	 */
 	public function testRouteExceptionCheckMethodType()
 	{
 		$this->setExpectedException('Txiki\Router\RouteException','Error Processing Route Type',0);
@@ -62,10 +62,10 @@ class RouteExceptionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts route exception check method type on add method
-	*
-	* @return void
-	*/
+	 * Asserts route exception check method type on add method
+	 *
+	 * @return void
+	 */
 	public function testRouteExceptionCheckMethodTypeOnAdd()
 	{
 		$this->setExpectedException('Txiki\Router\RouteException','Error Processing Route Type',0);
@@ -74,10 +74,10 @@ class RouteExceptionTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts route exception on add params to route object
-	*
-	* @return void
-	*/
+	 * Asserts route exception on add params to route object
+	 *
+	 * @return void
+	 */
 	public function testRouteObjectExceptionAddParams()
 	{
 		$this->setExpectedException('Txiki\Router\RouteException','Route filters need to be an array',0);

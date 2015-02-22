@@ -5,7 +5,6 @@ namespace Txiki\Router\Tests;
 /**
  * DummyClass
  */
-
 class DummyClass
 {
 	/**

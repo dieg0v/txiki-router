@@ -11,10 +11,10 @@ use Txiki\Router\RouteRegex;
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	* Route
-	*
-	* @var Txiki\Router\Route
-	*/
+	 * Route
+	 *
+	 * @var Txiki\Router\Route
+	 */
 	protected $router;
 
 	/**
@@ -28,10 +28,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Asserts routes table
-	*
-	* @return void
-	*/
+	 * Asserts routes table
+	 *
+	 * @return void
+	 */
     public function testTable()
     {
         $this->assertEquals($this->router->table(), []);
@@ -44,10 +44,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-	* Asserts routes get http methods
-	*
-	* @return void
-	*/
+	 * Asserts routes get http methods
+	 *
+	 * @return void
+	 */
     public function testGetHttpMethods()
     {
     	$this->assertInternalType('array', $this->router->getHttpMethods());
@@ -56,10 +56,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	* Asserts get route map
-	*
-	* @return void
-	*/
+	 * Asserts get route map
+	 *
+	 * @return void
+	 */
     public function testGetRouteMap()
     {
 		$r = $this->router->add( '/home', function(){
@@ -80,10 +80,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	* Asserts routes add
-	*
-	* @return void
-	*/
+	 * Asserts routes add
+	 *
+	 * @return void
+	 */
     public function testAdd()
 	{
 		$r = $this->router->add( '/home', function(){
@@ -101,10 +101,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	* Asserts routes exec
-	*
-	* @return void
-	*/
+	 * Asserts routes exec
+	 *
+	 * @return void
+	 */
     public function testExec()
     {
     	$r = $this->router->any('/any', function(){ return 'any'; });
@@ -116,10 +116,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	* Asserts routes call
-	*
-	* @return void
-	*/
+	 * Asserts routes call
+	 *
+	 * @return void
+	 */
     public function testCall()
     {
 		$r = $this->router->put('/put', function(){ return 'put'; });
@@ -137,10 +137,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	* Asserts routes call "any"
-	*
-	* @return void
-	*/
+	 * Asserts routes call "any"
+	 *
+	 * @return void
+	 */
     public function testCallAny()
     {
     	$r = $this->router->any('/any', function(){ return 'any'; });
@@ -148,10 +148,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	* Asserts route whit params
-	*
-	* @return void
-	*/
+	 * Asserts route whit params
+	 *
+	 * @return void
+	 */
     public function testWhitParams(){
 
     	$this->router->any('/test-{id}/{name}/{n}', function($id, $name , $n){
@@ -168,10 +168,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	* Asserts route whit params
-	*
-	* @return void
-	*/
+	 * Asserts route whit params
+	 *
+	 * @return void
+	 */
     public function testExecClass(){
 
     	$this->router->get('/user/{id}/{name}', 'Txiki\Router\Tests\DummyClass.method1');
@@ -179,5 +179,4 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($this->router->exec('/user/1/myname', 'get')->response, 'Hello world 1 myname');
 
     }
-
 }
