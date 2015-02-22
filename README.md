@@ -1,4 +1,6 @@
-# Route
+# Txiki Router
+
+Simple router for PHP
 
 [![Author](http://img.shields.io/badge/author-@dieg0v-blue.svg?style=flat-square)](https://twitter.com/dieg0v)
 [![Latest Version](https://img.shields.io/github/release/txiki/route.svg?style=flat-square)](https://github.com/dieg0v/txiki-router/releases)
