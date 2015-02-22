@@ -103,7 +103,7 @@ class Route
 
 			if (!$method) {
 				return $this->routes[$route];
-			} else {
+			}else {
 
 				$this->checkMethodType($method);
 
@@ -189,7 +189,7 @@ class Route
 						}
 						if (is_callable($route[$i]->callback)) {
 							$route[$i]->response = call_user_func_array($route[$i]->callback, $route[$i]->paramsValues);
-						} else {
+						}else {
 							$call = explode('.', $route[$i]->callback);
 							$class = new $call[0];
 							$route[$i]->response = call_user_func_array(array($class, $call[1]), $route[$i]->paramsValues);
