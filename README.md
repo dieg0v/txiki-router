@@ -45,7 +45,7 @@ $r->get('/home', function(){
     return "GET Hello world!";
 });
 
-// tell to router what you do want to process, route and http method
+//tell router what you want to process, the route and the http method
 $route = $r->exec( '/home', 'get');
 
 if($route!==false){
