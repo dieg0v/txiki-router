@@ -16,7 +16,7 @@ Simple router for PHP
 Via Composer
 
 ``` bash
-$ composer require txiki/txiki-router
+$ composer require txiki/router
 ```
 
 ## Requirements
