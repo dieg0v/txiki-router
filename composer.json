@@ -1,5 +1,5 @@
 {
-  "name": "txiki/txiki-router",
+  "name": "txiki/router",
   "description": "Simple router for PHP",
   "keywords": ["routing", "router", "txiki"],
   "homepage": "https://github.com/dieg0v/txiki-router",
