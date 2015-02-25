@@ -148,11 +148,11 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	 * Asserts route whit params
+	 * Asserts route with params
 	 *
 	 * @return void
 	 */
-    public function testWhitParams(){
+    public function testWithParams(){
 
     	$this->router->any('/test-{id}/{name}/{n}', function($id, $name , $n){
 		    return 'Test: ' . $id .' '.$name.' '.$n;
@@ -168,13 +168,13 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
 	/**
-	 * Asserts route whit params
+	 * Asserts route with external class
 	 *
 	 * @return void
 	 */
     public function testExecClass(){
 
-    	$this->router->get('/user/{id}/{name}', 'Txiki\Router\Tests\DummyClass.method1');
+    	$this->router->get('/user/{id}/{name}', 'Txiki\Router\Tests\DummyClass::method1');
 
 		$this->assertEquals($this->router->exec('/user/1/myname', 'get')->response, 'Hello world 1 myname');
 

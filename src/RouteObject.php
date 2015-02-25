@@ -4,11 +4,12 @@ namespace Txiki\Router;
 
 use Txiki\Router\RouteRegex;
 use Txiki\Router\RouteException;
+use Txiki\Callback\ICallable;
 
 /**
  * RouteObject class
  */
-class RouteObject
+class RouteObject implements ICallable
 {
 	/**
 	 * route
@@ -22,7 +23,7 @@ class RouteObject
 	 *
 	 * @var \Clousure
 	 */
-	public $callback;
+	private $callback;
 
 	/**
 	 * Methods allowed
@@ -43,7 +44,7 @@ class RouteObject
 	 *
 	 * @var array
 	 */
-	public $paramsValues = [];
+	private $paramsValues = [];
 
 	/**
 	 * route object response
@@ -109,4 +110,24 @@ class RouteObject
 	{
 		return $this->paramsValues[$param] = $value;
 	}
+
+	/**
+	 * Get callback
+	 *
+	 * @return \Clousure
+	 */
+	public function getCallable()
+	{
+		return $this->callback;
+	}
+
+	/**
+	 * Get params
+	 *
+	 * @return array
+	 */
+    public function getParams()
+    {
+    	return $this->paramsValues;
+    }
 }

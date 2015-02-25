@@ -41,7 +41,7 @@ class RouteObjectTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals(true, in_array('get',$this->routeObject->methods));
 
-		$this->assertInstanceOf('Closure', $this->routeObject->callback);
+		$this->assertInstanceOf('Closure', $this->routeObject->getCallable());
 	}
 
 	/**

@@ -111,7 +111,7 @@ class myClass{
     }
 }
 
-$r->get('/user/{id}/{name}', 'myClass.method1');
+$r->get('/user/{id}/{name}', 'myClass::method1');
 ```
 
 Helper methods:

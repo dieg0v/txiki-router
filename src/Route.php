@@ -5,6 +5,7 @@ namespace Txiki\Router;
 use Txiki\Router\RouteRegex;
 use Txiki\Router\RouteObject;
 use Txiki\Router\RouteException;
+use Txiki\Callback\Call;
 
 /**
  * Route class
@@ -185,17 +186,12 @@ class Route
 						 		}
 
 						 	}
+						}
 
-						}
-						if (is_callable($route[$i]->callback)) {
-							$route[$i]->response = call_user_func_array($route[$i]->callback, $route[$i]->paramsValues);
-						} else {
-							$call = explode('.', $route[$i]->callback);
-							$class = new $call[0];
-							$route[$i]->response = call_user_func_array(array($class, $call[1]), $route[$i]->paramsValues);
-						}
+						$route[$i]->response = Call::dispatch( $route[$i] );
 
 						return $route[$i];
+
 					}
 				}
 			}
