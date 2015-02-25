@@ -6,6 +6,7 @@ All Notable changes to will be documented in this file
 
 ### Added
 - txiki/callback as dependece
+- change package name txiki/router
 
 ## 1.0.0 - 2015-02-22
 
