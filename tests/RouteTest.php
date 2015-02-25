@@ -179,4 +179,18 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($this->router->exec('/user/1/myname', 'get')->response, 'Hello world 1 myname');
 
     }
+
+	/**
+	 * Asserts route with external class and static method
+	 *
+	 * @return void
+	 */
+    public function testExecClassStaticMethod(){
+
+    	$this->router->get('/user/{id}/{name}', 'Txiki\Router\Tests\DummyClass::method2');
+
+		$this->assertEquals($this->router->exec('/user/1/myname', 'get')->response, 'Hello world 1 myname');
+
+    }
+
 }
