@@ -7,4 +7,6 @@ use Exception;
 /**
  * RouteException class
  */
-class RouteException extends Exception {}
+class RouteException extends Exception
+{
+}

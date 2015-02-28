@@ -12,209 +12,193 @@ use Txiki\Callback\Call;
  */
 class Route
 {
-	/**
-	 * Routes collection
-	 *
-	 * @var array
-	 */
-	protected $routes = [];
+    /**
+     * Routes collection
+     *
+     * @var array
+     */
+    protected $routes = [];
 
-	/**
-	 * Allowed routes http methods
-	 *
-	 * @var array
-	 */
-	protected $httpMethods = [
-		'get',
-		'post',
-		'put',
-		'delete'
-	];
+    /**
+     * Allowed routes http methods
+     *
+     * @var array
+     */
+    protected $httpMethods = [
+        'get',
+        'post',
+        'put',
+        'delete'
+    ];
 
-	/**
-	 * Routes table on array
-	 *
-	 * @return array
-	 */
-	public function table()
-	{
-		return $this->routes;
-	}
+    /**
+     * Routes table on array
+     *
+     * @return array
+     */
+    public function table()
+    {
+        return $this->routes;
+    }
 
-	/**
-	 * Get http methods
-	 *
-	 * @return array
-	 */
-	public function getHttpMethods()
-	{
-		return $this->httpMethods;
-	}
+    /**
+     * Get http methods
+     *
+     * @return array
+     */
+    public function getHttpMethods()
+    {
+        return $this->httpMethods;
+    }
 
-	/**
-	 * Add new route
-	 *
-	 * @param string  $route    route to process
-	 * @param \Clousure $callback
-	 * @param string $types
-	 *
-	 * @return Txiki\Router\RouteObject
-	 */
-	public function add($route, $callback = false, $types = false)
-	{
+    /**
+     * Add new route
+     *
+     * @param string  $route    route to process
+     * @param \Clousure $callback
+     * @param string $types
+     *
+     * @return Txiki\Router\RouteObject
+     */
+    public function add($route, $callback = false, $types = false)
+    {
+        if (!$callback) {
+            throw new RouteException("No route callback set");
+        }
 
-		if (!$callback) {
-			throw new RouteException("No route callback set");
-		}
+        if ($types === false) {
+            $types = implode('|', $this->httpMethods);
+        }
 
-		if ($types === false) {
-			$types = implode('|', $this->httpMethods);
-		}
+        $types_to_check = explode('|', $types);
 
-		$types_to_check = explode('|', $types);
+        foreach ($types_to_check as $method) {
+            $this->checkMethodType($method);
 
-		foreach ($types_to_check as $method) {
+            if ($this->getRouteMap($route, $method)) {
+                throw new RouteException("Duplicate Route method defined");
+            }
+        }
 
-			$this->checkMethodType($method);
+        return $this->routes[$route][] = new RouteObject(
+            $route,
+            $types_to_check,
+            $callback
+        );
+    }
 
-			if ($this->getRouteMap($route, $method)) {
-				throw new RouteException("Duplicate Route method defined");
-			}
-		}
+    /**
+     * Get map table for one route
+     *
+     * @param  string  $route   route to check
+     * @param  mixed   $method  http method to check
+     * @return mixed            return false, Txiki\Router\RouteObject, or array of RouteObject's
+     */
+    public function getRouteMap($route, $method = false)
+    {
+        if (array_key_exists($route, $this->routes)) {
+            if (!$method) {
+                return $this->routes[$route];
+            } else {
+                $this->checkMethodType($method);
 
-		return $this->routes[$route][] = new RouteObject(
-			$route,
-			$types_to_check,
-			$callback
-		);
+                $routesObjects = $this->routes[$route];
+                foreach ($routesObjects as $routeObject) {
+                    foreach ($routeObject->methods as $routeObjectMethod) {
+                        if ($routeObjectMethod === $method) {
+                            return $routeObject;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
 
-	}
+    /**
+     * Check http method allowed
+     *
+     * @param  string $method method name
+     * @return mixed          true if allowed, throw RouteException if not
+     */
+    private function checkMethodType($method)
+    {
+        if (!in_array(strtolower($method), $this->httpMethods)) {
+            throw new RouteException("Error Processing Route Type");
+        }
+        return true;
+    }
 
-	/**
-	 * Get map table for one route
-	 *
-	 * @param  string  $route   route to check
-	 * @param  mixed   $method  http method to check
-	 * @return mixed            return false, Txiki\Router\RouteObject, or array of RouteObject's
-	 */
-	public function getRouteMap($route, $method = false)
-	{
+    /**
+     * Exec one route request
+     *
+     * @param  string $request
+     * @param  string $method  method name
+     *
+     * @return mixed           return one Txiki\Router\RouteObject or false
+     */
+    public function exec($request, $method)
+    {
+        $method = strtolower($method);
 
-		if (array_key_exists($route, $this->routes)) {
+        foreach ($this->routes as $key => $route) {
+            $totalRoutes = count($route);
 
-			if (!$method) {
-				return $this->routes[$route];
-			} else {
+            for ($i = 0; $i < $totalRoutes; $i++) {
+                if (in_array($method, $route[$i]->methods)) {
+                    $search = $key;
 
-				$this->checkMethodType($method);
+                    if ($route[$i]->params) {
+                        foreach ($route[$i]->params as $paramKey => $value) {
+                            $search = str_replace('{'.$paramKey.'}', $route[$i]->params[''.$paramKey.''], $search);
+                        }
+                    }
 
-				$routesObjects = $this->routes[$route];
-				foreach ($routesObjects as $routeObject) {
-					foreach ($routeObject->methods as $routeObjectMethod) {
-						if ($routeObjectMethod === $method) {
-							return $routeObject;
-						}
-					}
-				}
-				return false;
-			}
-		}
-		return false;
-	}
+                    $search = str_replace('/', '\/', $search);
+                    $search = '/^'.$search.'$/i';
 
-	/**
-	 * Check http method allowed
-	 *
-	 * @param  string $method method name
-	 * @return mixed          true if allowed, throw RouteException if not
-	 */
-	private function checkMethodType($method)
-	{
-		if (!in_array(strtolower($method), $this->httpMethods)) {
-			throw new RouteException("Error Processing Route Type");
-		}
-		return true;
-	}
+                    if (preg_match($search, $request, $matches_values)) {
+                        array_shift($matches_values);
 
-	/**
-	 * Exec one route request
-	 *
-	 * @param  string $request
-	 * @param  string $method  method name
-	 *
-	 * @return mixed           return one Txiki\Router\RouteObject or false
-	 */
-	public function exec($request, $method)
-	{
+                        preg_match_all('/{(.*?)}/', $key, $matches_vars);
+                        $matches_vars = $matches_vars[1];
 
-		$method = strtolower($method);
+                        $total_matches_vars = count($matches_vars);
 
-		foreach ($this->routes as $key => $route) {
+                        for ($j = 0; $j < $total_matches_vars; $j++) {
+                            if (isset($route[$i]->params[$matches_vars[$j]])) {
+                                if (isset($matches_values[$j])) {
+                                    $route[$i]->addValue($matches_values[$j], $matches_vars[$j]);
+                                }
+                            }
+                        }
 
-			$totalRoutes = count($route);
+                        $route[$i]->response = Call::dispatch($route[$i]);
 
-			for ($i = 0; $i < $totalRoutes; $i++) {
+                        return $route[$i];
+                    }
+                }
+            }
+        }
 
-				if (in_array($method, $route[$i]->methods)) {
+        return false;
+    }
 
-					$search = $key;
+    /**
+     * Magic method for add routes with get, post, put or any function name
+     *
+     * @param  string $name
+     * @param  array $arguments
+     *
+     * @return Txiki\Router\RouteObject
+     */
+    public function __call($name, $arguments)
+    {
+        if ($name == 'any') {
+            $name = false;
+        }
 
-					if ($route[$i]->params) {
-						foreach ($route[$i]->params as $paramKey => $value) {
-							$search = str_replace('{'.$paramKey.'}', $route[$i]->params[''.$paramKey.''], $search);
-						}
-					}
-
-					$search = str_replace('/', '\/', $search);
-					$search = '/^'.$search.'$/i';
-
-					if (preg_match($search, $request, $matches_values)) {
-
-						array_shift($matches_values);
-
-						preg_match_all('/{(.*?)}/', $key, $matches_vars);
-						$matches_vars = $matches_vars[1];
-
-						$total_matches_vars = count($matches_vars);
-
-						for ($j = 0; $j < $total_matches_vars; $j++) {
-
-						 	if (isset($route[$i]->params[$matches_vars[$j]])) {
-
-						 		if (isset ($matches_values[$j])) {
-						 			$route[$i]->addValue($matches_values[$j], $matches_vars[$j]);
-						 		}
-
-						 	}
-						}
-
-						$route[$i]->response = Call::dispatch( $route[$i] );
-
-						return $route[$i];
-
-					}
-				}
-			}
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * Magic method for add routes with get, post, put or any function name
-	 *
-	 * @param  string $name
-	 * @param  array $arguments
-	 *
-	 * @return Txiki\Router\RouteObject
-	 */
-	public function __call($name, $arguments)
-	{
-		if ($name == 'any') {
-			$name = false;
-		}
-
-		return $this->add($arguments[0], $arguments[1], $name);
-	}
+        return $this->add($arguments[0], $arguments[1], $name);
+    }
 }

@@ -11,123 +11,122 @@ use Txiki\Callback\ICallable;
  */
 class RouteObject implements ICallable
 {
-	/**
-	 * route
-	 *
-	 * @var string
-	 */
-	public $route;
+    /**
+     * route
+     *
+     * @var string
+     */
+    public $route;
 
-	/**
-	 * Clousure
-	 *
-	 * @var \Clousure
-	 */
-	private $callback;
+    /**
+     * Clousure
+     *
+     * @var \Clousure
+     */
+    private $callback;
 
-	/**
-	 * Methods allowed
-	 *
-	 * @var array
-	 */
-	public $methods = [];
+    /**
+     * Methods allowed
+     *
+     * @var array
+     */
+    public $methods = [];
 
-	/**
-	 * Params
-	 *
-	 * @var array
-	 */
-	public $params = [];
+    /**
+     * Params
+     *
+     * @var array
+     */
+    public $params = [];
 
-	/**
-	 * Params values
-	 *
-	 * @var array
-	 */
-	private $paramsValues = [];
+    /**
+     * Params values
+     *
+     * @var array
+     */
+    private $paramsValues = [];
 
-	/**
-	 * route object response
-	 *
-	 * @var mixed
-	 */
-	public $response = false;
+    /**
+     * route object response
+     *
+     * @var mixed
+     */
+    public $response = false;
 
-	/**
-	 * RouteObject constructor
-	 *
-	 * @param string    $route
-	 * @param array     $methods
-	 * @param \Clousure $callback
-	 */
-	public function __construct($route, $methods, $callback)
-	{
-		$this->route = $route;
-		$this->methods = $methods;
-		$this->callback = $callback;
+    /**
+     * RouteObject constructor
+     *
+     * @param string    $route
+     * @param array     $methods
+     * @param \Clousure $callback
+     */
+    public function __construct($route, $methods, $callback)
+    {
+        $this->route = $route;
+        $this->methods = $methods;
+        $this->callback = $callback;
 
-		$params = [];
+        $params = [];
 
-		preg_match_all('/{(.*?)}/', $route, $matches);
+        preg_match_all('/{(.*?)}/', $route, $matches);
 
-		if (count($matches) > 0) {
-			foreach ($matches[1] as $key) {
-				$params[$key] = RouteRegex::ALPHANUMERIC;
-			}
-		}
+        if (count($matches) > 0) {
+            foreach ($matches[1] as $key) {
+                $params[$key] = RouteRegex::ALPHANUMERIC;
+            }
+        }
 
-		if (count($params) > 0) {
-			$this->params($params);
-		}
+        if (count($params) > 0) {
+            $this->params($params);
+        }
+    }
 
-	}
+    /**
+     * Add params
+     *
+     * @param  array $params
+     *
+     * @return Txiki\Router\RouteObject
+     */
+    public function params($params = [])
+    {
+        if (!is_array($params)) {
+            throw new RouteException("Route filters need to be an array");
+        }
+        $this->params = $params;
+        return $this;
+    }
 
-	/**
-	 * Add params
-	 *
-	 * @param  array $params
-	 *
-	 * @return Txiki\Router\RouteObject
-	 */
-	public function params($params = [])
-	{
-		if (!is_array($params)) {
-			throw new RouteException("Route filters need to be an array");
-		}
-		$this->params = $params;
-		return $this;
-	}
+    /**
+     * Add param value
+     *
+     * @param mixed  $value value to add
+     * @param string $param param array key
+     *
+     * @return mixed 		added value
+     */
+    public function addValue($value, $param)
+    {
+        return $this->paramsValues[$param] = $value;
+    }
 
-	/**
-	 * Add param value
-	 *
-	 * @param mixed  $value value to add
-	 * @param string $param param array key
-	 *
-	 * @return mixed 		added value
-	 */
-	public function addValue($value, $param)
-	{
-		return $this->paramsValues[$param] = $value;
-	}
+    /**
+     * Get callback
+     *
+     * @return \Clousure
+     */
+    public function getCallable()
+    {
+        return $this->callback;
+    }
 
-	/**
-	 * Get callback
-	 *
-	 * @return \Clousure
-	 */
-	public function getCallable()
-	{
-		return $this->callback;
-	}
-
-	/**
-	 * Get params
-	 *
-	 * @return array
-	 */
+    /**
+     * Get params
+     *
+     * @return array
+     */
     public function getParams()
     {
-    	return $this->paramsValues;
+        return $this->paramsValues;
     }
 }
