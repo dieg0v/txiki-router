@@ -56,6 +56,7 @@ class Route
      *
      * @param string  $route    route to process
      * @param \Clousure $callback
+     *
      * @param string $types
      *
      * @return Txiki\Router\RouteObject
@@ -92,6 +93,7 @@ class Route
      *
      * @param  string  $route   route to check
      * @param  mixed   $method  http method to check
+     *
      * @return mixed            return false, Txiki\Router\RouteObject, or array of RouteObject's
      */
     public function getRouteMap($route, $method = false)
@@ -120,6 +122,7 @@ class Route
      * Check http method allowed
      *
      * @param  string $method method name
+     *
      * @return mixed          true if allowed, throw RouteException if not
      */
     private function checkMethodType($method)
