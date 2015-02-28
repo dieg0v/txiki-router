@@ -56,7 +56,6 @@ class Route
      *
      * @param string  $route    route to process
      * @param \Clousure $callback
-     *
      * @param string $types
      *
      * @return Txiki\Router\RouteObject
